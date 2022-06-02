@@ -82,97 +82,102 @@ class HomePage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
           backgroundColor: Colors.grey,
-          body: Consumer<AccountsController>(
-            builder: (context, model, child) {
-              return RefreshIndicator(
-                triggerMode: RefreshIndicatorTriggerMode.anywhere,
-                onRefresh: () async {
-                  await model.searchAccountList(searchController.text);
-                  return;
-                },
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Expanded(
-                            child: TextField(
-                              obscureText: false,
-                              controller: searchController,
-                              autocorrect: false,
-                              keyboardType: TextInputType.text,
-                              onSubmitted: (s) {
-                                if (s.length > 1) {
-                                  model.searchAccountList(s);
-                                }
-                              },
-                              decoration: const InputDecoration(
-                                prefixIcon: Icon(Icons.search),
-                                hintText: "Search",
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () async {
-                              await model.clickFilterPanel();
-                            },
-                            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
-                              Icon(Icons.filter_alt),
-                              Text("Filter"),
-                            ]),
-                          ),
-                          Row(
+          body: Center(
+            child: Container(
+              constraints: const BoxConstraints(maxWidth: 800),
+              child: Consumer<AccountsController>(
+                builder: (context, model, child) {
+                  return RefreshIndicator(
+                    triggerMode: RefreshIndicatorTriggerMode.anywhere,
+                    onRefresh: () async {
+                      await model.searchAccountList(searchController.text);
+                      return;
+                    },
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              IconButton(
-                                icon: const Icon(Icons.view_list_sharp),
-                                tooltip: 'Filter',
-                                onPressed: () {
-                                  model.setList();
-                                },
+                              Expanded(
+                                child: TextField(
+                                  obscureText: false,
+                                  controller: searchController,
+                                  autocorrect: false,
+                                  keyboardType: TextInputType.text,
+                                  onSubmitted: (s) {
+                                    if (s.length > 1) {
+                                      model.searchAccountList(s);
+                                    }
+                                  },
+                                  decoration: const InputDecoration(
+                                    prefixIcon: Icon(Icons.search),
+                                    hintText: "Search",
+                                  ),
+                                ),
                               ),
-                              IconButton(
-                                icon: const Icon(Icons.grid_view_sharp),
-                                tooltip: 'Filter',
-                                onPressed: () {
-                                  model.setGrid();
+                              InkWell(
+                                onTap: () async {
+                                  await model.clickFilterPanel();
                                 },
+                                child: Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
+                                  Icon(Icons.filter_alt),
+                                  Text("Filter"),
+                                ]),
+                              ),
+                              Row(
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.view_list_sharp),
+                                    tooltip: 'Filter',
+                                    onPressed: () {
+                                      model.setList();
+                                    },
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(Icons.grid_view_sharp),
+                                    tooltip: 'Filter',
+                                    onPressed: () {
+                                      model.setGrid();
+                                    },
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ],
-                      ),
-                    ),
-                    if (model.isFilterPanelVisible)
-                      const Padding(
-                        padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
-                        child: FilterPanel(),
-                      ),
-                    model.isloading
-                        ? const Expanded(child: spinkit)
-                        : Expanded(
-                            child: model.isList
-                                ? ListView.builder(
-                                    padding: const EdgeInsets.all(8),
-                                    itemCount: model.accountList.length,
-                                    itemBuilder: (BuildContext context, int index) {
-                                      return AccountItem(account: model.accountList[index]);
-                                    })
-                                : GridView.builder(
-                                    padding: const EdgeInsets.all(8),
-                                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                    ),
-                                    itemCount: model.accountList.length,
-                                    itemBuilder: (BuildContext context, int index) {
-                                      return AccountItem(account: model.accountList[index]);
-                                    }),
+                        ),
+                        if (model.isFilterPanelVisible)
+                          const Padding(
+                            padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
+                            child: FilterPanel(),
                           ),
-                  ],
-                ),
-              );
-            },
+                        model.isloading
+                            ? const Expanded(child: spinkit)
+                            : Expanded(
+                                child: model.isList
+                                    ? ListView.builder(
+                                        padding: const EdgeInsets.all(8),
+                                        itemCount: model.accountList.length,
+                                        itemBuilder: (BuildContext context, int index) {
+                                          return AccountItem(account: model.accountList[index]);
+                                        })
+                                    : GridView.builder(
+                                        padding: const EdgeInsets.all(8),
+                                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 3,
+                                        ),
+                                        itemCount: model.accountList.length,
+                                        itemBuilder: (BuildContext context, int index) {
+                                          return AccountItem(account: model.accountList[index]);
+                                        }),
+                              ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
           )),
     );
   }

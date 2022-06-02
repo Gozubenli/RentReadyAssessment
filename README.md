@@ -1,10 +1,15 @@
-# rent_ready_assessment
+# Rent Ready Technical Assessment Project
 
-A new Flutter project.
+This is a flutter mobile/web application project for Rent Ready technical assessment.
+
+## Main Goals
+- Create a application
+- Implement search and filtering capabilities
+- Implement a details view
+- Utilize dataverse as a data storage (WebAPI)
+- Load sample data into project
 
 ## Getting Started
-
-This project is a starting point for a Flutter application.
 
 A few resources to get you started if this is your first Flutter project:
 

@@ -44,7 +44,6 @@ class AccountsController extends ChangeNotifier {
 
   Future<void> clickFilterPanel() async {
     _isFilterPanelVisible = !_isFilterPanelVisible;
-    _isloading = !_isloading;
     notifyListeners();
   }
 
@@ -62,6 +61,7 @@ class AccountsController extends ChangeNotifier {
     ///TODO Search API
     _isloading = true;
     notifyListeners();
+    await Future.delayed(const Duration(seconds: 2));
     _accountListAll = [
       Account(name: "name1", stateCode: "stateCode1", stateOrProvince: "stateOrProvince1"),
       Account(name: "name2", stateCode: "stateCode2", stateOrProvince: "stateOrProvince2"),
