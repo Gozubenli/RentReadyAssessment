@@ -10,7 +10,7 @@ This is a flutter mobile/web application project for Rent Ready technical assess
 - :white_check_mark: Load sample data into project
 
 ## :rocket: Flutter App
-  ### State Managment
+  ### State Management
 - Provider (https://pub.dev/packages/provider)
   ### Packages Used 
     - :package:[provider: ^6.0.3](https://pub.dev/packages/provider)
