@@ -1,16 +1,22 @@
 class Account {
-  int? id;
+  String accountid;
+  String accountnumber;
   String name;
-  String stateCode;
+  int stateCode;
   String stateOrProvince;
 
-  Account({this.id, required this.name, required this.stateCode, required this.stateOrProvince});
+  Account({required this.accountid, required this.accountnumber, required this.name, required this.stateCode, required this.stateOrProvince});
 
-  factory Account.fromJson(Map<String, dynamic> json) =>
-      Account(id: json["id"], name: json["name"] ?? "", stateCode: json["stateCode"] ?? "", stateOrProvince: json["stateOrProvince"] ?? "");
+  factory Account.fromJson(Map<String, dynamic> json) => Account(
+      accountid: json["accountid"] ?? "",
+      accountnumber: json["accountnumber"] ?? "",
+      name: json["name"] ?? "",
+      stateCode: json["stateCode"] ?? 0,
+      stateOrProvince: json["stateOrProvince"] ?? "");
 
   Map<String, dynamic> toJson() => {
-        if (id != null) "id": id,
+        "accountid": accountid,
+        "accountnumber": accountnumber,
         "name": name,
         "stateCode": stateCode,
         "stateOrProvince": stateOrProvince,

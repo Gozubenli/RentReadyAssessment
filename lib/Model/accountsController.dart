@@ -1,14 +1,18 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
+import 'package:rent_ready_assessment/Service/accountService.dart';
 
 import 'account.dart';
 
 class AccountsController extends ChangeNotifier {
   List<Account> _accountListAll = [];
   List<Account> _accountList = [];
+  Account? _selectedAccount;
   bool _isloading = false;
   bool _isList = true;
   bool _isFilterPanelVisible = false;
+  int? _selectedStateCode;
+  String? _selectedStateOrProvince;
 
   List<Account> get accountList {
     return _accountList;
@@ -26,9 +30,21 @@ class AccountsController extends ChangeNotifier {
     return _isloading;
   }
 
-  List<String> get stateCodeList {
-    List<String> list = [];
-    groupBy(_accountList, (Account obj) => obj.stateCode).forEach((key, value) {
+  Account? get selectedAccount {
+    return _selectedAccount;
+  }
+
+  int? get selectedStateCode {
+    return _selectedStateCode;
+  }
+
+  String? get selectedStateOrProvince {
+    return _selectedStateOrProvince;
+  }
+
+  List<int> get stateCodeList {
+    List<int> list = [];
+    groupBy(_accountListAll, (Account obj) => obj.stateCode).forEach((key, value) {
       list.add(key);
     });
     return list;
@@ -36,7 +52,7 @@ class AccountsController extends ChangeNotifier {
 
   List<String> get stateOrProvinceList {
     List<String> list = [];
-    groupBy(_accountList, (Account obj) => obj.stateOrProvince).forEach((key, value) {
+    groupBy(_accountListAll, (Account obj) => obj.stateOrProvince).forEach((key, value) {
       list.add(key);
     });
     return list;
@@ -47,12 +63,14 @@ class AccountsController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> filterByStateCode(String filterText) async {
-    _accountList = _accountListAll.where((account) => account.stateCode.toLowerCase().contains(filterText.toLowerCase())).toList();
+  Future<void> filterByStateCode(int filter) async {
+    _selectedStateCode = filter;
+    _accountList = _accountListAll.where((account) => account.stateCode == filter).toList();
     notifyListeners();
   }
 
   Future<void> filterByStateOrProvince(String filterText) async {
+    _selectedStateOrProvince = filterText;
     _accountList = _accountListAll.where((account) => account.stateOrProvince.toLowerCase().contains(filterText.toLowerCase())).toList();
     notifyListeners();
   }
@@ -61,14 +79,21 @@ class AccountsController extends ChangeNotifier {
     ///TODO Search API
     _isloading = true;
     notifyListeners();
-    await Future.delayed(const Duration(seconds: 2));
-    _accountListAll = [
-      Account(name: "name1", stateCode: "stateCode1", stateOrProvince: "stateOrProvince1"),
-      Account(name: "name2", stateCode: "stateCode2", stateOrProvince: "stateOrProvince2"),
-      Account(name: "name3", stateCode: "stateCode3", stateOrProvince: "stateOrProvince3"),
-    ];
+
+    _accountListAll = await AccountService.getAccountList(searchText);
+    // await Future.delayed(const Duration(seconds: 2));
+    // _accountListAll = [
+    //   Account(name: "name1", stateCode: "stateCode1", stateOrProvince: "stateOrProvince1"),
+    //   Account(name: "name2", stateCode: "stateCode2", stateOrProvince: "stateOrProvince2"),
+    //   Account(name: "name3", stateCode: "stateCode3", stateOrProvince: "stateOrProvince3"),
+    // ];
     _accountList = _accountListAll;
     _isloading = false;
+    notifyListeners();
+  }
+
+  Future<void> selectAccount(Account account) async {
+    _selectedAccount = account;
     notifyListeners();
   }
 
