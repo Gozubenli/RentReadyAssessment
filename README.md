@@ -4,7 +4,7 @@
 This is a flutter mobile/web application project for Rent Ready technical assessment.
 
 ## Main Goals
-- Create a application
+- Create an application
 - Implement search and filtering capabilities
 - Implement a details view
 - Utilize dataverse as a data storage (WebAPI)
