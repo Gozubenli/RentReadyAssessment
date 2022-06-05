@@ -24,8 +24,12 @@ RUN flutter config --enable-web
 RUN mkdir /app/
 COPY . /app/
 WORKDIR /app/
-#RUN flutter test /app/test/widget_test.dart
-RUN flutter test 
+
+#Unit Test
+RUN flutter test /app/test/accountsController_test.dart
+#Component Test
+RUN flutter test /app/test/widget_test.dart
+#Build For Web
 RUN flutter build web
 
 # Record the exposed port

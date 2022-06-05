@@ -34,7 +34,7 @@ class _FilterPanelState extends State<FilterPanel> {
                     DropdownButton<int>(
                       value: selectedStateCode,
                       icon: const Icon(Icons.arrow_drop_down),
-                      hint: const Text("State Code"),
+                      //hint: const Text("State Code"),
                       onChanged: (int? newValue) async {
                         await model.filterByStateCode(newValue!);
                         setState(() {

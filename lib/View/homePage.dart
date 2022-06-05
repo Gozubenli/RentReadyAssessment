@@ -36,14 +36,13 @@ class HomePage extends StatelessWidget {
                           children: [
                             Expanded(
                               child: TextField(
+                                key: const Key('search'),
                                 obscureText: false,
                                 controller: searchController,
                                 autocorrect: false,
                                 keyboardType: TextInputType.text,
                                 onSubmitted: (s) {
-                                  if (s.isNotEmpty) {
-                                    model.searchAccountList(s);
-                                  }
+                                  model.searchAccountList(s);
                                 },
                                 decoration: const InputDecoration(
                                   prefixIcon: Icon(Icons.search),
@@ -114,6 +113,7 @@ class HomePage extends StatelessWidget {
                                       itemCount: model.accountList.length,
                                       itemBuilder: (BuildContext context, int index) {
                                         return InkWell(
+                                            key: Key("Tap$index"),
                                             onTap: () async {
                                               await model.selectAccount(model.accountList[index]);
                                               await Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: const DetailPage()));

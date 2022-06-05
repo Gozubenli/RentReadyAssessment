@@ -60,33 +60,33 @@ class AccountsController extends ChangeNotifier {
 
   Future<void> clickFilterPanel() async {
     _isFilterPanelVisible = !_isFilterPanelVisible;
+    _selectedStateCode = 0;
+    _selectedStateOrProvince = "";
     notifyListeners();
   }
 
   Future<void> filterByStateCode(int filter) async {
     _selectedStateCode = filter;
     _accountList = _accountListAll.where((account) => account.stateCode == filter).toList();
+
+    if (_selectedStateOrProvince != null && _selectedStateOrProvince!.isNotEmpty) {
+      _accountList = _accountListAll.where((account) => account.stateOrProvince.toLowerCase().contains(_selectedStateOrProvince!.toLowerCase())).toList();
+    }
     notifyListeners();
   }
 
   Future<void> filterByStateOrProvince(String filterText) async {
     _selectedStateOrProvince = filterText;
     _accountList = _accountListAll.where((account) => account.stateOrProvince.toLowerCase().contains(filterText.toLowerCase())).toList();
+    _accountList = _accountList.where((account) => account.stateCode == _selectedStateCode).toList();
     notifyListeners();
   }
 
   Future<void> searchAccountList(String searchText) async {
-    ///TODO Search API
     _isloading = true;
+    _isFilterPanelVisible = false;
     notifyListeners();
-
     _accountListAll = await AccountService.getAccountList(searchText);
-    // await Future.delayed(const Duration(seconds: 2));
-    // _accountListAll = [
-    //   Account(name: "name1", stateCode: "stateCode1", stateOrProvince: "stateOrProvince1"),
-    //   Account(name: "name2", stateCode: "stateCode2", stateOrProvince: "stateOrProvince2"),
-    //   Account(name: "name3", stateCode: "stateCode3", stateOrProvince: "stateOrProvince3"),
-    // ];
     _accountList = _accountListAll;
     _isloading = false;
     notifyListeners();

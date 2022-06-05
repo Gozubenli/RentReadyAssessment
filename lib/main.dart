@@ -5,6 +5,7 @@ import 'package:rent_ready_assessment/Model/accountsController.dart';
 import 'View/homePage.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(
     ChangeNotifierProvider(
       create: (context) => AccountsController(),
