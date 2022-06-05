@@ -2,8 +2,6 @@
 
 This is a flutter mobile/web application project for Rent Ready technical assessment.
 
-![This is an image](1.gif)
-
 ## Main Goals
 - :white_check_mark: Create an application
 - :white_check_mark: Implement search and filtering capabilities
