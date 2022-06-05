@@ -3,6 +3,8 @@
 <img src="https://www.vectorlogo.zone/logos/flutterio/flutterio-icon.svg" alt="flutter" width="40" height="40"/> </a>
 This is a flutter mobile/web application project for Rent Ready technical assessment.
 
+![This is an image](1.gif)
+
 ## Main Goals
 - Create an application
 - Implement search and filtering capabilities
